@@ -11,15 +11,20 @@
     <figure>
         <img src="/img/logo-DH.png" alt="Logo Digital House">
     </figure>
-    <h1><%= movie.title %> </h1>    
+    <h1><%= movie.title %> </h1>       
     <br>
     <p>RATING: <%= movie.rating %> </p>
     <p>AWARDS: <%= movie.awards %> </p>
     <p>LENGTH: <%= movie.length + ' min'%> </p>
     <p>RELEASE DATE: <%= movie.release_date %> </p>
     <br>
-    <section>
-        <!--Aqui você tem que colocar os botões Modificar - Apagar e Lista de Filmes-->
+    <section>        
+        <p><a class="botonVoltar" href="/movies/edit/<%= movie.id %>">Modificar</a></p>
+        <form action="/movies/delete/<%= movie.id %>?_method=DELETE" method="post">
+            <button class="" type="submit">Apagar</button>
+        </form>        
+        <p><a class="botonVoltar" href="/movies">Lista Filmes</a></p>
+        
     </section>
 
 </body>

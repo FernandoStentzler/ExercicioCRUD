@@ -1,57 +1,63 @@
-module.exports = (sequelize, dataTypes) => {
-    let alias = 'Movie'; //isto deveria estar no singular
-    let cols = {
-        id: {
-            type: dataTypes.BIGINT(10).UNSIGNED,
-            primaryKey: true,
-            allowNull: false,
-            autoIncrement: true
-        },
-        // created_at: dataTypes.TIMESTAMP,
-        // updated_at: dataTypes.TIMESTAMP,
-        title: {
-            type: dataTypes.STRING(500),
-            allowNull: false
-        },
-        rating: {
-            type: dataTypes.DECIMAL(3, 1).UNSIGNED,
-            allowNull: false
-        },
-        awards: {
-            type: dataTypes.BIGINT(10).UNSIGNED,
-            allowNull: false
-        },
-        release_date: {
-            type: dataTypes.DATEONLY,
-            allowNull: false
-        },
-        length: dataTypes.BIGINT(10),
-        genre_id: dataTypes.BIGINT(10)
-    };
-    let config = {
-        timestamps: true,
-        createdAt: 'created_at',
-        updatedAt: 'updated_at',
-        deletedAt: false
-    }
-    const Movie = sequelize.define(alias,cols,config);
+module.exports = (sequelize, DataTypes) => {
+    // let alias = nome da tabela
+    // let cols = nome das colunas
+    // let config = configurações da tabela
+    let alias = 'Movie';
 
-    //Aqui você tem que fazer o necessário para criar as relações com os modelos (Genre - Actor)
-    Movie.associated = (models) =>{
+    let cols = {
+        id:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            primaryKey: true,
+            autoIncrement: true,
+            allowNull: false
+        },
+        title:{
+            type: DataTypes.STRING(500),
+            allowNull: false
+        },
+        rating:{
+            type: DataTypes.DECIMAL(3,1).UNSIGNED,
+            allowNull: false
+        },
+        awards:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
+        },
+        release_date:{
+            type: DataTypes.DATE,
+            allowNull: false
+        },
+        length:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
+        },
+        genre_id:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
+            allowNull: false
+        }
+    };
+
+    let config = {
+        tableName: 'movies',
+        timestamps: false
+    };
+
+    let Movie = sequelize.define(alias, cols, config)
+
+    Movie.associate = (models) => {
         Movie.belongsTo(models.Genre,{
-            foreignKey: 'genre_id',
-            as: 'genres'
-        });
+           as: 'genres',
+           foreignKey: 'genre_id'
+        }); 
 
         Movie.belongsToMany(models.Actor,{
             as: 'actors',
-            throught: 'actor_movie',
+            through: 'actor_movie',
             foreignKey: 'movie_id',
             otherKey: 'actor_id',
             timestamps: false
         });
-
-    }
+    };
 
     return Movie
-};
+}

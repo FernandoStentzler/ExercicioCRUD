@@ -13,11 +13,11 @@ router.get('/add', moviesController.add);
 router.post('/create',movieValidate, moviesController.create);
 
 //Update
-//router.get('/movies/edit/:id', moviesController.edit);
-//router.post('/movies/update/:id', moviesController.update);
+router.get('/edit/:id', moviesController.edit);
+router.post('/update/:id', moviesController.update);
 
 //Delete
-//router.get('/movies/delete/:id', moviesController.delete);
-//router.post('/movies/delete/:id', moviesController.destroy);
+// router.get('/movies/delete/:id', moviesController.delete);
+router.delete('/delete/:id', moviesController.destroy);
 
 module.exports = router;

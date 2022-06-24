@@ -1,44 +1,42 @@
-// const { TINYINT, INTEGER } = require("sequelize/types");
-
-module.exports = (sequelize, dataTypes) => {
+module.exports = (sequelize, DataTypes) => {
+    // let alias = nome da tabela
+    // let cols = nome das colunas
+    // let config = configurações da tabela
     let alias = 'Genre';
+
     let cols = {
-        id: {
-            type: dataTypes.BIGINT(10).UNSIGNED,
+        id:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
             primaryKey: true,
-            allowNull: false,
-            autoIncrement: true
-        },
-        // created_at: dataTypes.TIMESTAMP,
-        // updated_at: dataTypes.TIMESTAMP,
-        name: {
-            type: dataTypes.STRING(100),
+            autoIncrement: true,
             allowNull: false
         },
-        ranking: {
-            type: dataTypes.BIGINT(10).UNSIGNED,
+        name:{
+            type: DataTypes.STRING(100),
             allowNull: false
         },
-        active: {
-            type: dataTypes.BOOLEAN,
+        ranking:{
+            type: DataTypes.INTEGER(10).UNSIGNED,
             allowNull: false
+        },
+        active:{
+            type: DataTypes.INTEGER(1).UNSIGNED,
         }
     };
-    let config = {
-        timestamps: true,
-        createdAt: 'created_at',
-        updatedAt: 'updated_at',
-        deletedAt: false
-    }
-    const Genre = sequelize.define(alias, cols, config);
 
-    //Aqui você tem que fazer o necessário para criar as relações com o modelo (Movie)
-    Genre.associated = (models) => {
+    let config = {
+        tableName: 'genres',
+        timestamps: false        
+    };
+
+    let Genre = sequelize.define(alias, cols, config)
+
+    Genre.associate = (models) => {
         Genre.hasMany(models.Movie,{
-            foreignKey: 'genre_id',
-            as: 'movies'
+           as: 'movies',
+           foreignKey: 'genre_id' 
         })
-    }
+    };
 
     return Genre
-};
+}
